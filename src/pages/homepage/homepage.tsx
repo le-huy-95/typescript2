@@ -3,20 +3,69 @@ import './homepage.scss';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
   UserOutlined,
-  VideoCameraOutlined,
-  LogoutOutlined
-} from '@ant-design/icons';
-import { Layout, Menu, Button, theme ,Row ,Col ,Avatar, Space } from 'antd';
+  LogoutOutlined,
+  RightOutlined,
+  UserAddOutlined ,
+  SearchOutlined,
 
+} from '@ant-design/icons';
+import { Layout, Menu, Button, Avatar, Space , Tag  } from 'antd';
+import { AppstoreOutlined, MailOutlined, } from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+import TableManageUser from "../Table-manage-user/manageUser"
+import ModalCreatUser from "../modalCreateUser/modalCreateUser"
 const { Header, Sider, Content } = Layout;
 
+
+
+type MenuItem = Required<MenuProps>['items'][number];
+
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: 'group',
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  } as MenuItem;
+}
+const items: MenuItem[] = [
+
+  
+    getItem('Navigation One', 'sub1', <MailOutlined />, [
+      getItem('Option 5', '5'),
+      getItem('Option 6', '6'),
+      getItem('Option 7', '7'),
+      getItem('Option 8', '8'),
+    ]),
+  
+    getItem('Navigation Two', 'sub2', <AppstoreOutlined />, [
+      getItem('Option 9', '9'),
+      getItem('Option 10', '10'),
+  
+      getItem('Submenu', 'sub3', null, [getItem('Option 11', '11'), getItem('Option 12', '12')]),
+    ]),
+  ];
+
+ 
+
+
+
 const HomePage = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+    const [collapsed, setCollapsed] = useState(false);
+    const [open, setOpen] = useState(false);
+    const showModal = () => {
+        setOpen(true);
+      };
+      
+ 
 
   return (
     <Layout>
@@ -26,33 +75,17 @@ const HomePage = () => {
          <div className='name-user'> User</div>
          <div className='btn-logout'> <LogoutOutlined /></div>
 
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          items={[
-            {
-                key: '',
-                icon: <UserOutlined />,
-                label: 'nav 1',
-              },
-            {
-              key: '1',
-              icon: <UserOutlined />,
-              label: 'nav 1',
-            },
-            {
-              key: '2',
-              icon: <VideoCameraOutlined />,
-              label: 'nav 2',
-            },
-            {
-              key: '3',
-              icon: <UploadOutlined />,
-              label: 'nav 3',
-            },
-          ]}
-        />
+         <div >
+    
+      <Menu
+        defaultSelectedKeys={['1']}
+        defaultOpenKeys={['sub1']}
+        mode="inline"
+        theme="dark"
+        inlineCollapsed={collapsed}
+        items={items}
+      />
+    </div>
       </Sider>
       <Layout>
         <Header 
@@ -79,11 +112,42 @@ const HomePage = () => {
             // margin: '24px 16px',
             padding: 24,
             minHeight: 280,
-            background: colorBgContainer,
+            background: "white",
           }}
         >
-          huy lê
-        </Content>
+      <div className='navigater'>
+        <div className='item'>
+            <span className='name-item'> Quản lý nhân sự</span> <span><RightOutlined /></span>
+        </div>
+      </div>   
+     
+     <hr />
+     <div className='button-select'>
+      <Button type="primary" icon={<UserAddOutlined />} onClick={()=>showModal()}>
+        Thêm mới
+      </Button>
+      <div className='more '>
+        <div className='search'>
+            <div className='search-icon'>
+            <SearchOutlined />
+            </div>
+            <input type="text"
+             placeholder='Search infomation'
+          />
+        </div>
+     </div>
+     </div>
+
+     <div className='body-table'>
+        <TableManageUser/>
+     </div>
+     </Content>
+     <ModalCreatUser 
+      open={open}
+      showModal={showModal}
+      setOpen={setOpen}
+     />
+
       </Layout>
     </Layout>
   );

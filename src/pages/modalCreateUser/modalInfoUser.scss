@@ -1,0 +1,22 @@
+.modal-container{
+    .image-user{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .ant-avatar {
+        margin-bottom: 20px;
+    }
+    .Update-image{
+        font-size: 16px;
+        background: #1677ff;
+        border-radius: 20px;
+        padding:10px 16px;
+        color: #fff;
+        cursor: pointer;
+    }
+}
+.ant-form-item-control{
+    width: 100%;
+}

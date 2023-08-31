@@ -7,7 +7,7 @@ import {
   
   const routes = createBrowserRouter([
     {
-      path: '/',
+      path: '/manageuser',
       element: <Homepage />,
   
     },
